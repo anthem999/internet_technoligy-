@@ -4,475 +4,1183 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Мультимедийный лонгрид о Semantic Web и виртуальной недвижимости. Лабораторная работа №2.">
-<title>Недвижимость без границ — Semantic Web и виртуальные миры</title>
+<meta name="theme-color" content="#081923">
+<meta name="description" content="Мультимедийный лонгрид о Semantic Web и виртуальной недвижимости. Лабораторная работа №2 МГТУ СТАНКИН.">
+<title>Недвижимость без границ — Semantic Web</title>
+
 <style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
+
 :root {
   --dark: #081923;
-  --ink: #172b35;
-  --muted: #526975;
-  --mint: #65e0ca;
-  --line: #dfebe9;
-  --paper: #f3f7f6;
+  --dark2: #102b36;
+  --ink: #172a32;
+  --muted: #63777d;
+  --mint: #81ead0;
+  --accent: #168d7d;
+  --paper: #f7f9f6;
+  --line: #dce7e3;
+  --purple: #8b80e8;
 }
-* { box-sizing: border-box; }
+
+* {
+  box-sizing: border-box;
+}
+
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 65px;
+  scroll-padding-top: 95px;
 }
+
 body {
   margin: 0;
+  background: var(--paper);
   color: var(--ink);
-  background: #fff;
-  font: 17px/1.8 system-ui, -apple-system,
-    "Segoe UI", Arial, sans-serif;
+  font: 16px/1.82 "DM Sans", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
-a { color: #087b75; }
-a:hover { color: #03594f; }
-button, select { font: inherit; }
-button:focus-visible,
+
+a {
+  color: inherit;
+}
+
 a:focus-visible,
-select:focus-visible {
-  outline: 3px solid #58cabc;
-  outline-offset: 3px;
+button:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
 }
+
+button {
+  font: inherit;
+}
+
 .wrap {
-  width: min(1100px, calc(100% - 42px));
+  max-width: 1280px;
+  width: calc(100% - 64px);
   margin: auto;
 }
+
+/* Индикатор чтения */
+
 #progress {
-  height: 4px;
-  background: var(--mint);
   position: fixed;
   top: 0;
   left: 0;
   width: 0;
-  z-index: 20;
+  height: 4px;
+  background: var(--mint);
+  z-index: 200;
 }
-.top {
+
+/* Навигация */
+
+.navbar {
   position: absolute;
-  z-index: 5;
   top: 4px;
   left: 0;
   width: 100%;
-  border-bottom: 1px solid #ffffff35;
+  z-index: 20;
   color: white;
+  border-bottom: 1px solid #ffffff32;
+  background: #07192355;
+  backdrop-filter: blur(10px);
 }
-.top .wrap {
-  min-height: 76px;
+
+.navbar .wrap {
   display: flex;
+  min-height: 78px;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
 }
-.logo {
-  font-size: 13px;
+
+.brand {
+  color: white;
+  font-size: 12px;
+  font-weight: 800;
   letter-spacing: .14em;
-  font-weight: 850;
   text-decoration: none;
-  color: #fff;
+  white-space: nowrap;
 }
-.logo b { color: var(--mint); }
-.top nav {
-  display: flex;
-  gap: 24px;
+
+.brand span {
+  color: var(--mint);
 }
-.top nav a {
-  font-size: 13px;
-  color: white;
-  text-decoration: none;
-}
-.hero {
-  min-height: 680px;
-  color: white;
+
+.navlinks {
   display: flex;
   align-items: center;
+  gap: 30px;
+}
+
+.navlinks a {
+  color: #e2f0ed;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.navlinks a:hover {
+  color: var(--mint);
+}
+
+/* Обложка */
+
+.hero {
+  min-height: 760px;
+  height: 92svh;
+  max-height: 950px;
   position: relative;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  background: #0a2634;
+  color: white;
+}
+
+.hero-image {
+  position: absolute;
+  inset: 0;
   background:
     linear-gradient(
       90deg,
-      #061620f2 3%,
-      #0b233acf 55%,
-      #102b4c55
+      #061923f5 0%,
+      #061923d9 32%,
+      #06192370 72%
     ),
     url("https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?auto=format&fit=crop&w=1800&q=85")
-      center / cover,
-    #0d2937;
+    center / cover;
+  animation: heroZoom 24s ease-in-out infinite alternate;
 }
-.hero::after {
+
+.hero-image::after {
   content: "";
   position: absolute;
   inset: 0;
-  pointer-events: none;
   background:
+    radial-gradient(
+      circle at 76% 35%,
+      #69e7d020,
+      transparent 44%
+    ),
     linear-gradient(
       0deg,
-      #081923 0%,
-      transparent 46%
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent 0 129px,
-      #79e4d30a 130px
+      #081923c9,
+      transparent 45%
     );
 }
-.hero .wrap {
+
+.hero-content {
   position: relative;
   z-index: 2;
-  padding: 130px 0 96px;
+  padding-top: 75px;
 }
+
 .eyebrow {
-  color: #83e7d3;
-  letter-spacing: .19em;
-  text-transform: uppercase;
-  font-size: 12px;
+  color: var(--mint);
+  font-size: 11px;
   font-weight: 800;
+  letter-spacing: .2em;
+  text-transform: uppercase;
 }
+
 .hero h1 {
-  font-size: clamp(54px, 9vw, 110px);
-  line-height: 1.02;
-  letter-spacing: -.055em;
-  margin: 18px 0;
-  max-width: 1000px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  font-size: clamp(65px, 9vw, 132px);
+  line-height: .97;
+  letter-spacing: -.07em;
+  max-width: 980px;
+  margin: 30px 0 32px;
 }
+
 .hero h1 em {
-  color: var(--mint);
   font-style: normal;
-}
-.hero p {
-  max-width: 600px;
-  color: #d7e8ed;
-  font-size: 20px;
-}
-.hero a.jump {
-  display: inline-block;
-  margin-top: 24px;
-  border-radius: 50px;
-  padding: 13px 23px;
-  border: 1px solid #c4f7eb8a;
-  background: #ffffff15;
-  text-decoration: none;
-  color: white;
-  font-weight: 700;
-}
-.meta {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  font-size: 12px;
-  color: #b8d7db;
-  margin-top: 70px;
-}
-.toc {
-  background: #0b212b;
-  color: #fff;
-  padding: 62px 0;
-}
-.toc h2 {
-  font-size: 32px;
-  margin: 0 0 20px;
-}
-.toc-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0 32px;
-}
-.toc-grid a {
-  border-bottom: 1px solid #31515b;
-  padding: 12px 0;
-  color: #e1f0f0;
-  text-decoration: none;
-  display: flex;
-  gap: 13px;
-  font-size: 15px;
-}
-.toc-grid a span {
   color: var(--mint);
+}
+
+.hero-description {
+  max-width: 600px;
+  font-size: clamp(17px, 1.7vw, 22px);
+  color: #d8e5e7;
+  line-height: 1.6;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 34px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 35px;
+  padding: 14px 22px;
+  border-radius: 6px;
+  font-size: 13px;
   font-weight: 800;
+  text-decoration: none;
+  transition: transform .2s, background .2s;
 }
-.section {
-  max-width: 870px;
-  margin: 0 auto;
-  padding: 88px 22px 65px;
+
+.btn:hover {
+  transform: translateY(-2px);
 }
-.section h2 {
-  font-size: clamp(31px, 4.7vw, 52px);
-  line-height: 1.18;
-  letter-spacing: -.035em;
-  margin: 12px 0 28px;
+
+.btn-primary {
+  background: var(--mint);
+  color: #08302c;
 }
-.section h3 {
-  font-size: 24px;
-  line-height: 1.3;
-  margin: 36px 0 12px;
+
+.btn-outline {
+  border: 1px solid #d7f8ed7e;
+  color: white;
 }
-.label {
-  font-size: 12px;
-  font-weight: 800;
+
+.btn-outline:hover {
+  background: #ffffff20;
+}
+
+.hero-meta {
+  position: absolute;
+  z-index: 2;
+  bottom: 30px;
+  left: 0;
+  width: 100%;
+  color: #c3dadd;
+  font-size: 10px;
   letter-spacing: .16em;
-  color: #0d8a81;
   text-transform: uppercase;
 }
-.section p { margin: 0 0 19px; }
-.section strong { color: #0b3b43; }
-.section ul { padding-left: 21px; }
-.section li { margin-bottom: 9px; }
-.small {
-  font-size: 14px;
+
+.hero-meta .wrap {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Вступительный блок */
+
+.introduction {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 80px;
+  padding-top: 62px;
+  padding-bottom: 62px;
+  border-bottom: 1px solid var(--line);
+}
+
+.introduction p {
+  font: 26px/1.48 Georgia, serif;
+  margin: 16px 0 0;
+  max-width: 820px;
+}
+
+.intro-meta {
+  display: grid;
+  align-content: end;
+  gap: 14px;
+}
+
+.intro-meta div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 9px;
+  font-size: 12px;
+}
+
+.intro-meta span {
   color: var(--muted);
 }
-.note {
-  border-left: 4px solid #4ccdb8;
-  background: var(--paper);
-  padding: 19px 25px;
-  margin: 30px 0;
-  border-radius: 0 12px 12px 0;
+
+/* Основная композиция */
+
+.content-layout {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 820px);
+  gap: 76px;
+  padding-top: 75px;
+  padding-bottom: 100px;
 }
-.band { background: var(--paper); }
-.band .section {
-  padding-top: 80px;
-  padding-bottom: 80px;
+
+.sidebar {
+  position: relative;
 }
-.figure {
-  margin: 35px 0;
-  padding: 27px;
-  border: 1px solid #dce8e8;
-  border-radius: 18px;
-  background: #fff;
-  box-shadow: 0 12px 45px #112f3910;
+
+.sidebar-sticky {
+  position: sticky;
+  top: 35px;
 }
-.figure figcaption {
-  color: #5e717a;
-  font-size: 13px;
+
+.sidebar-title {
+  font-size: 11px;
+  letter-spacing: .16em;
+  font-weight: 800;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.toc {
+  display: grid;
+  margin-top: 15px;
+}
+
+.toc a {
+  display: flex;
+  gap: 15px;
+  padding: 11px 9px;
+  color: #6c8084;
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  font-size: 12px;
   line-height: 1.5;
-  margin-top: 18px;
+  transition: .2s;
 }
+
+.toc a span {
+  color: #91a3a5;
+  font-weight: 800;
+}
+
+.toc a.active,
+.toc a:hover {
+  background: #e5f5ef;
+  border-color: var(--accent);
+  color: #087668;
+}
+
+.sidebar-note {
+  background: var(--dark2);
+  color: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  margin-top: 45px;
+}
+
+.sidebar-note strong {
+  display: block;
+  font: 25px/1.3 Georgia, serif;
+  margin: 15px 0;
+}
+
+.sidebar-note p {
+  color: #bed3d8;
+  font-size: 12px;
+  margin: 0;
+}
+
+/* Статья */
+
+.article {
+  min-width: 0;
+}
+
+.chapter {
+  margin-bottom: 110px;
+  scroll-margin-top: 45px;
+}
+
+.chapter-label {
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .18em;
+  margin-bottom: 16px;
+}
+
+.chapter h2 {
+  font: 400 clamp(35px, 4vw, 54px)/1.15 Georgia, serif;
+  letter-spacing: -.04em;
+  margin: 0 0 30px;
+}
+
+.chapter h2 em {
+  color: #218b7d;
+  font-style: italic;
+}
+
+.chapter h3 {
+  font: 400 28px/1.3 Georgia, serif;
+  margin: 40px 0 15px;
+}
+
+.chapter p {
+  margin: 0 0 23px;
+  color: #42565c;
+  line-height: 1.88;
+}
+
+.chapter strong {
+  color: #173c42;
+}
+
+.chapter ul {
+  padding-left: 22px;
+}
+
+.chapter li {
+  margin-bottom: 12px;
+}
+
+.dropcap::first-letter {
+  float: left;
+  font: 69px/.85 Georgia, serif;
+  padding: 8px 12px 0 0;
+  color: var(--accent);
+}
+
+.ref {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.ref:hover {
+  text-decoration: underline;
+}
+
+/* Цитаты */
+
+.quote {
+  margin: 45px 0;
+  padding: 27px 25px 27px 54px;
+  border-top: 1px solid #a8d8cb;
+  border-bottom: 1px solid #a8d8cb;
+  position: relative;
+}
+
+.quote::before {
+  content: "“";
+  position: absolute;
+  top: -10px;
+  left: 0;
+  color: #42b8a5;
+  font: 85px Georgia, serif;
+}
+
+.quote p {
+  font: 26px/1.45 Georgia, serif;
+  color: #17433e;
+  margin: 0;
+}
+
+/* Иллюстрации */
+
+.figure {
+  margin: 38px 0;
+}
+
+.figure figcaption {
+  font-size: 12px;
+  color: #71858b;
+  line-height: 1.6;
+  margin-top: 13px;
+}
+
+.figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 460px;
+  object-fit: cover;
+  border-radius: 9px;
+}
+
 .triple {
   display: grid;
   grid-template-columns: 1fr auto 1fr auto 1fr;
-  gap: 8px;
+  align-items: center;
+  gap: 12px;
+  padding: 42px 25px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #eef5f2;
+}
+
+.triple-node {
+  background: white;
+  border: 1px solid #d0e4de;
+  padding: 25px 12px;
+  border-radius: 12px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 14px;
+  min-width: 0;
+}
+
+.triple-node small {
+  display: block;
+  color: #6b8b87;
+  margin-bottom: 9px;
+  font-size: 10px;
+  letter-spacing: .1em;
+}
+
+.triple-node.accent {
+  background: #ddf6eb;
+  border-color: #7fd8c2;
+}
+
+.triple-arrow {
+  font-size: 30px;
+  color: var(--accent);
+}
+
+/* Карточки технологий */
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin: 35px 0;
+}
+
+.tech-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  padding: 27px;
+  border-radius: 10px;
+  transition: transform .25s, box-shadow .25s;
+}
+
+.tech-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 35px #183d3512;
+}
+
+.tech-card small {
+  color: var(--accent);
+  letter-spacing: .14em;
+  font-weight: 800;
+}
+
+.tech-card h3 {
+  font: 28px Georgia, serif;
+  margin: 13px 0;
+}
+
+.tech-card p {
+  font-size: 13px;
+  margin: 0;
+}
+
+/* Выделенные замечания */
+
+.note {
+  padding: 23px 28px;
+  margin: 35px 0;
+  background: #f0edff;
+  border-left: 4px solid var(--purple);
+  border-radius: 0 9px 9px 0;
+}
+
+.note.green {
+  background: #eaf7f0;
+  border-color: #24ad89;
+}
+
+.note strong {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.note p {
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Панорамный переход */
+
+.interlude {
+  position: relative;
+  background:
+    linear-gradient(90deg, #071923ed, #0719233a),
+    url("https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1500&q=85")
+    center / cover;
+  border-radius: 10px;
+  min-height: 360px;
+  margin: 65px 0;
+  padding: 60px 42px;
+  color: white;
+  display: flex;
   align-items: center;
 }
-.node {
-  background: #e8f7f3;
-  padding: 20px 10px;
-  text-align: center;
+
+.interlude h3 {
+  font: 42px/1.2 Georgia, serif;
+  max-width: 460px;
+  margin: 15px 0;
+}
+
+.interlude h3 em {
+  color: var(--mint);
+}
+
+/* Кейсы */
+
+.case {
+  display: grid;
+  grid-template-columns: 135px 1fr;
+  gap: 30px;
+  padding: 32px 0;
+  border-top: 1px solid var(--line);
+}
+
+.case:last-of-type {
+  border-bottom: 1px solid var(--line);
+}
+
+.case-index {
+  color: #9dbcb4;
+  font: 55px Georgia, serif;
+}
+
+.case h3 {
+  margin-top: 0;
+  font-size: 34px;
+}
+
+.case a {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Видео */
+
+.video-box {
+  background: var(--dark);
+  padding: 25px;
   border-radius: 12px;
-  font-size: 15px;
-  font-weight: 750;
-}
-.arrow {
-  font-size: 26px;
-  color: #218b87;
-}
-.flow {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
-.flow div {
-  background: #102e3b;
   color: white;
-  border-radius: 11px;
-  padding: 16px;
-  font-size: 14px;
+  margin: 40px 0;
 }
-.flow b {
-  display: block;
-  font-size: 20px;
-  color: #8cf0d8;
+
+.video-box h3 {
+  color: white;
+  margin: 0 0 22px;
+  font-size: 26px;
 }
-.photo {
+
+.video-frame {
+  aspect-ratio: 16/9;
   width: 100%;
-  border-radius: 16px;
-  object-fit: cover;
-  max-height: 450px;
-  background: #e4eff0;
+  background: #193744;
 }
-.card-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-}
-.card {
-  padding: 24px;
-  border: 1px solid var(--line);
-  border-radius: 15px;
-  background: #fff;
-}
-.card h3 { margin: 0 0 8px; }
-.video {
-  position: relative;
-  padding-bottom: 56.25%;
-  height: 0;
-  overflow: hidden;
-  border-radius: 16px;
-  background: #071d28;
-  margin-top: 25px;
-}
-.video iframe {
-  position: absolute;
-  inset: 0;
+
+.video-frame iframe {
   width: 100%;
   height: 100%;
   border: 0;
 }
+
+.video-box p {
+  color: #a9c7cb;
+  font-size: 12px;
+  margin: 15px 0 0;
+}
+
+/* Исследования */
+
+.research-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 33px 0;
+}
+
+.research-card {
+  background: #fff;
+  padding: 23px 18px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+}
+
+.research-card small {
+  color: var(--accent);
+  font-weight: 800;
+  font-size: 10px;
+}
+
+.research-card h3 {
+  font: 21px/1.35 Georgia, serif;
+  margin: 16px 0;
+}
+
+.research-card p {
+  font-size: 12px;
+  margin: 0;
+}
+
 .stat {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 30px;
   padding: 30px;
-  border-radius: 15px;
-  background: #0b2733;
+  background: var(--dark2);
   color: white;
+  border-radius: 10px;
+  margin: 36px 0;
 }
-.stat strong {
-  font-size: 64px;
+
+.stat-number {
+  font: 72px Georgia, serif;
   color: var(--mint);
   white-space: nowrap;
 }
-.stat span { line-height: 1.55; }
+
+.stat p {
+  color: #d1e1e2;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Интерактивный каталог */
+
 .demo {
-  background: #0a2230;
-  color: #e7f6f6;
-  border-radius: 18px;
-  padding: 24px;
-  margin: 28px 0;
+  background: #102a35;
+  color: white;
+  border-radius: 14px;
+  overflow: hidden;
+  margin: 34px 0;
 }
-.tabs {
+
+.demo-header {
+  border-bottom: 1px solid #ffffff24;
+  padding: 20px 25px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+
+.demo-header span {
+  color: var(--mint);
+}
+
+.demo-tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin: 18px 0;
+  gap: 9px;
+  padding: 23px 25px 8px;
 }
-.tabs button,
-.controls button {
-  border: 1px solid #63838b;
-  background: #244653;
-  color: #fff;
-  padding: 10px 15px;
-  border-radius: 9px;
+
+.demo-tabs button {
+  border: 1px solid #66888e;
+  background: transparent;
+  color: #d4eded;
+  padding: 10px 17px;
+  border-radius: 30px;
   cursor: pointer;
+  font-size: 12px;
 }
-.tabs button[aria-pressed="true"],
-.controls button:hover {
-  background: #6fe1cc;
-  color: #092c35;
-  border-color: #6fe1cc;
-}
-.demo pre {
-  white-space: pre-wrap;
-  word-break: break-word;
-  background: #031720;
-  color: #b8fce9;
-  padding: 18px;
-  border-radius: 10px;
-  line-height: 1.65;
-  overflow: auto;
-}
-.demo .result {
-  padding: 15px;
-  border: 1px solid #3f6870;
-  border-radius: 10px;
-}
-.audio {
-  background: #e9f6f3;
-  border: 1px solid #c8e7e0;
-  border-radius: 17px;
-  padding: 24px;
-  margin: 30px 0;
-}
-.audio h3 { margin-top: 0; }
-.controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 18px 0;
-}
-.controls button {
-  background: #12625f;
-  border-color: #12625f;
-}
-.controls button:disabled {
-  opacity: .45;
-  cursor: not-allowed;
-}
-.audio label {
-  display: inline-flex;
-  flex-direction: column;
-  margin-right: 15px;
-  font-size: 13px;
-  font-weight: 750;
-}
-.audio select {
-  padding: 8px;
-  border: 1px solid #a3c5bf;
-  border-radius: 8px;
-  max-width: 250px;
-  background: white;
-}
-.audio details { font-size: 15px; }
-.audio summary {
-  cursor: pointer;
+
+.demo-tabs button.active {
+  background: var(--mint);
+  color: #092a2e;
+  border-color: var(--mint);
   font-weight: 800;
 }
-.audio #voice-status {
-  font-size: 14px;
-  color: #3d6767;
+
+.demo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 25px;
 }
-.refs {
-  font-size: 14px;
-  line-height: 1.7;
-  padding-left: 24px;
+
+.demo-visual {
+  background: #163c47;
+  border: 1px solid #34616a;
+  border-radius: 10px;
+  min-height: 290px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+
+.demo-visual svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 320px;
+}
+
+.demo-info h3 {
+  color: white;
+  font: 29px Georgia, serif;
+  margin: 10px 0 15px;
+}
+
+.demo-info p {
+  color: #b9d4d7;
+  font-size: 13px;
+}
+
+.demo pre {
+  background: #071b24;
+  border: 1px solid #385b64;
+  padding: 18px;
+  border-radius: 9px;
+  color: #adedd9;
+  white-space: pre-wrap;
   overflow-wrap: anywhere;
+  font: 12px/1.8 Consolas, monospace;
 }
-.refs li { margin-bottom: 15px; }
-.refs a { overflow-wrap: anywhere; }
-.footer {
-  padding: 42px 0;
-  background: #081923;
-  color: #cce1e4;
+
+.demo-note {
+  color: #9fbfc3;
+  font-size: 11px;
+  padding: 0 25px 25px;
+}
+
+/* Ограничения */
+
+.risk {
+  display: grid;
+  grid-template-columns: 45px 1fr;
+  gap: 18px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.risk:first-child {
+  border-top: 1px solid var(--line);
+}
+
+.risk-number {
+  color: #45a995;
+  font: 24px Georgia, serif;
+}
+
+.risk strong {
+  font-size: 16px;
+}
+
+.risk p {
   font-size: 14px;
+  margin: 7px 0 0;
 }
-.footer a { color: var(--mint); }
+
+/* Заключение */
+
+.final-section {
+  background: #eaf4ee;
+  border-radius: 13px;
+  padding: 37px;
+}
+
+.final-quote {
+  border-top: 1px solid #abd0c2;
+  padding-top: 28px;
+  margin-top: 35px;
+  font: 26px/1.45 Georgia, serif;
+  color: #124b42;
+}
+
+/* Библиография */
+
+.sources {
+  margin-top: 100px;
+}
+
+.sources ol {
+  padding-left: 27px;
+}
+
+.sources li {
+  padding: 0 0 15px 6px;
+  margin: 0 0 13px;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+  scroll-margin-top: 30px;
+}
+
+.sources li::marker {
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.sources li:target {
+  background: #dff5e9;
+}
+
+.sources a {
+  color: #395961;
+  text-decoration: none;
+}
+
+.sources a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+/* Подвал */
+
+.footer {
+  background: var(--dark);
+  color: #b9d3d6;
+  padding: 45px 0 60px;
+  font-size: 13px;
+}
+
+.footer .wrap {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.footer a {
+  color: var(--mint);
+  text-decoration: none;
+}
+
+/* Анимации */
+
 .reveal {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity .65s, transform .65s;
+  transform: translateY(22px);
+  transition:
+    opacity .65s ease,
+    transform .65s ease;
 }
+
 .reveal.visible {
   opacity: 1;
   transform: none;
 }
-@media (max-width: 700px) {
-  .hero { min-height: 640px; }
-  .hero .wrap { padding-top: 115px; }
-  .hero h1 {
-    font-size: clamp(48px, 13vw, 70px);
+
+@keyframes heroZoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.07); }
+}
+
+/* Планшеты */
+
+@media (max-width: 1050px) {
+  .content-layout {
+    grid-template-columns: 210px minmax(0, 1fr);
+    gap: 40px;
   }
-  .hero p { font-size: 17px; }
-  .top nav { gap: 10px; }
-  .top nav a { font-size: 11px; }
-  .toc-grid,
-  .card-grid,
-  .flow {
+
+  .introduction {
+    gap: 35px;
+  }
+
+  .triple {
+    gap: 5px;
+    padding: 25px 12px;
+  }
+
+  .triple-node {
+    font-size: 12px;
+  }
+}
+
+/* Мобильные устройства */
+
+@media (max-width: 800px) {
+  .wrap {
+    width: calc(100% - 38px);
+  }
+
+  .hero {
+    min-height: 650px;
+  }
+
+  .hero h1 {
+    font-size: clamp(58px, 11vw, 90px);
+  }
+
+  .content-layout {
+    display: block;
+    padding-top: 35px;
+  }
+
+  .sidebar {
+    margin-bottom: 60px;
+  }
+
+  .sidebar-sticky {
+    position: static;
+  }
+
+  .toc {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px 13px;
+  }
+
+  .sidebar-note {
+    display: none;
+  }
+
+  .introduction {
     grid-template-columns: 1fr;
   }
-  .triple { grid-template-columns: 1fr; }
-  .arrow {
+
+  .intro-meta {
+    display: none;
+  }
+
+  .research-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .research-card h3 {
+    font-size: 23px;
+  }
+}
+
+@media (max-width: 550px) {
+  .navbar .wrap {
+    min-height: 65px;
+  }
+
+  .navlinks {
+    gap: 12px;
+  }
+
+  .navlinks a {
+    font-size: 11px;
+  }
+
+  .navlinks a:nth-child(2) {
+    display: none;
+  }
+
+  .hero {
+    min-height: 690px;
+    height: 91svh;
+  }
+
+  .hero h1 {
+    font-size: clamp(55px, 14vw, 76px);
+  }
+
+  .hero-description {
+    font-size: 17px;
+  }
+
+  .hero-meta {
+    font-size: 9px;
+  }
+
+  .hero-meta .wrap {
+    display: block;
+  }
+
+  .hero-meta span {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .introduction p {
+    font-size: 22px;
+  }
+
+  .chapter {
+    margin-bottom: 80px;
+  }
+
+  .chapter h2 {
+    font-size: 37px;
+  }
+
+  .chapter p {
+    font-size: 15px;
+  }
+
+  .quote p {
+    font-size: 22px;
+  }
+
+  .tech-grid {
+    gap: 10px;
+  }
+
+  .tech-card {
+    padding: 17px;
+  }
+
+  .tech-card h3 {
+    font-size: 21px;
+  }
+
+  .tech-card p {
+    font-size: 12px;
+  }
+
+  .triple {
+    grid-template-columns: 1fr;
+  }
+
+  .triple-arrow {
     transform: rotate(90deg);
     text-align: center;
   }
-  .stat { display: block; }
-  .stat strong { display: block; }
-  .section { padding: 65px 22px; }
-  .meta { margin-top: 45px; }
+
+  .interlude {
+    padding: 35px 25px;
+    min-height: 315px;
+  }
+
+  .interlude h3 {
+    font-size: 33px;
+  }
+
+  .case {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .case-index {
+    font-size: 40px;
+  }
+
+  .stat {
+    display: block;
+  }
+
+  .stat-number {
+    font-size: 64px;
+  }
+
+  .demo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .demo-visual {
+    min-height: 230px;
+  }
+
+  .final-section {
+    padding: 25px;
+  }
+
+  .footer .wrap {
+    display: block;
+  }
 }
+
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
   .reveal {
-    transition: none;
     opacity: 1;
     transform: none;
   }
@@ -481,14 +1189,16 @@ select:focus-visible {
 </head>
 
 <body>
+
 <div id="progress" aria-hidden="true"></div>
 
-<header class="top">
+<header class="navbar">
   <div class="wrap">
-    <a class="logo" href="#top">
-      ◈ INTERNET <b>LAB / 02</b>
+    <a class="brand" href="#top">
+      ◈ INTERNET <span>LAB / 02</span>
     </a>
-    <nav aria-label="Навигация">
+
+    <nav class="navlinks" aria-label="Основная навигация">
       <a href="#toc">Содержание</a>
       <a href="#research">Исследования</a>
       <a href="#sources">Источники</a>
@@ -498,886 +1208,1277 @@ select:focus-visible {
 
 <main id="top">
 
+<!-- ОБЛОЖКА -->
+
 <section class="hero">
-  <div class="wrap">
+  <div class="hero-image"></div>
+
+  <div class="wrap hero-content">
     <div class="eyebrow">
-      Мультимедийный лонгрид · Интернет-технологии
+      Цифровые пространства · Semantic Web · Web 3.0
     </div>
+
     <h1>
       Недвижимость<br>
       <em>без границ.</em>
     </h1>
-    <p>
-      Как семантическая паутина может помочь
-      цифровым мирам понимать друг друга —
+
+    <p class="hero-description">
+      Как семантическая паутина помогает
+      описывать цифровые пространства —
       и что на самом деле означает владеть
-      виртуальным участком.
+      участком в виртуальном мире.
     </p>
-    <a class="jump" href="#toc">
-      Исследовать историю ↓
-    </a>
-    <div class="meta">
+
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#toc">
+        Читать историю <span>↗</span>
+      </a>
+
+      <a class="btn btn-outline" href="#research">
+        Исследования <span>↓</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-meta">
+    <div class="wrap">
       <span>Лабораторная работа №2</span>
-      <span>По материалам ЛР №1</span>
       <span>МГТУ «СТАНКИН» · 2026</span>
     </div>
   </div>
 </section>
 
-<section class="toc" id="toc">
-  <div class="wrap">
-    <div class="eyebrow">
-      Путеводитель по материалу
+<!-- ВСТУПИТЕЛЬНАЯ КОМПОЗИЦИЯ -->
+
+<section class="introduction wrap">
+  <div>
+    <div class="eyebrow" style="color:#168d7d">
+      Введение
     </div>
-    <h2>Содержание</h2>
-    <nav class="toc-grid" aria-label="Кликабельное содержание">
-      <a href="#intro">
-        <span>01</span> Контекст цифровой экономики
-      </a>
-      <a href="#semantic">
-        <span>02</span> Что такое Semantic Web
-      </a>
-      <a href="#stack">
-        <span>03</span> Стандарты и технологии
-      </a>
-      <a href="#land">
-        <span>04</span> Виртуальная недвижимость
-      </a>
-      <a href="#cases">
-        <span>05</span> Практические кейсы
-      </a>
-      <a href="#research">
-        <span>06</span> Научные исследования
-      </a>
-      <a href="#demo">
-        <span>07</span> Интерактивный каталог
-      </a>
-      <a href="#limits">
-        <span>08</span> Ограничения и риски
-      </a>
-      <a href="#conclusion">
-        <span>09</span> Выводы
-      </a>
-      <a href="#sources">
-        <span>10</span> Источники
-      </a>
-    </nav>
-  </div>
-</section>
 
-<section class="section" id="intro">
-  <div class="label">Глава 01 / Контекст</div>
-  <h2>Мир, где у каждого объекта появится смысл</h2>
-
-  <p>
-    Представьте виртуальную галерею. У неё есть адрес
-    на карте, трёхмерная сцена, коллекция работ,
-    создатели, режим доступа и цифровые активы.
-    Для посетителя всё это — единое пространство.
-    Для информационных систем — разные наборы
-    данных. Одной системе известны координаты,
-    другой — описание здания, третьей — сведения
-    о токенах и разрешениях.
-  </p>
-
-  <p>
-    Развитие интернет-технологий связано не только
-    со скоростью передачи информации. В цифровой
-    экономике данные становятся ресурсом управления
-    процессами, а концепция «Индустрия 4.0»
-    предполагает согласованную работу сенсоров,
-    цифровых двойников и программных платформ.
-    Этот переход обсуждается в
-    <a href="https://doi.org/10.1787/a1689dc5-en"
-       target="_blank" rel="noopener">
-      OECD Digital Economy Outlook 2024 [1]
-    </a>.
-  </p>
-
-  <p>
-    Обзор Карабулута и соавторов изучает онтологии
-    в цифровых двойниках
-    <a href="https://doi.org/10.1016/j.future.2023.12.013"
-       target="_blank" rel="noopener">[2]</a>.
-    Работа Шленгера и соавторов предлагает
-    онтологическую архитектуру строительного
-    цифрового двойника
-    <a href="https://doi.org/10.1016/j.autcon.2025.106111"
-       target="_blank" rel="noopener">[3]</a>.
-    Но это ещё не доказательство существования
-    универсального каталога виртуальной недвижимости —
-    применение подхода к метавселенным остаётся
-    исследовательской задачей.
-  </p>
-
-  <p>
-    Web 1.0 ассоциируется с публикацией документов,
-    Web 2.0 — с пользовательским контентом и
-    социальным взаимодействием. Термин «Web 3.0»
-    многозначен: в традиции Semantic Web он означает
-    машинную интерпретацию знаний, а в современном
-    Web3 часто подразумевает блокчейн и
-    децентрализацию. Эти понятия пересекаются,
-    но не тождественны.
-  </p>
-
-  <div class="audio" id="audio">
-    <h3>🎧 Прослушать вступление</h3>
     <p>
-      Вместо неразборчивого MP3 используется
-      доступный на устройстве русский голос.
-      Можно выбрать голос, скорость и открыть
-      расшифровку.
+      Виртуальные миры уже умеют создавать здания,
+      улицы и целые города. Но смогут ли они
+      понимать друг друга? И какую роль в этом
+      играет семантическая паутина?
     </p>
+  </div>
 
-    <label>
-      Русский голос
-      <select id="voice-select">
-        <option>Поиск голосов…</option>
-      </select>
-    </label>
-
-    <label>
-      Скорость
-      <select id="voice-speed">
-        <option value="0.85">Медленная</option>
-        <option value="0.95" selected>Чёткая</option>
-        <option value="1">Обычная</option>
-        <option value="1.1">Быстрая</option>
-      </select>
-    </label>
-
-    <div class="controls">
-      <button id="voice-play" type="button">
-        ▶ Слушать
-      </button>
-      <button id="voice-pause" type="button" disabled>
-        ⏸ Пауза
-      </button>
-      <button id="voice-stop" type="button" disabled>
-        ■ Стоп
-      </button>
+  <div class="intro-meta">
+    <div>
+      <span>Формат</span>
+      <strong>Мультимедийный лонгрид</strong>
     </div>
-
-    <p id="voice-status" aria-live="polite">
-      Проверяем доступные голоса…
-    </p>
-
-    <details>
-      <summary>Текст аудиовступления</summary>
-      <p id="voice-transcript"></p>
-    </details>
+    <div>
+      <span>Основа</span>
+      <strong>Лабораторная работа №1</strong>
+    </div>
+    <div>
+      <span>Темы</span>
+      <strong>Semantic Web / Virtual Land</strong>
+    </div>
   </div>
 </section>
 
-<div class="band">
-<section class="section" id="semantic">
-  <div class="label">
-    Глава 02 / Семантическая паутина
+<div class="content-layout wrap">
+
+<!-- КЛИКАБЕЛЬНОЕ ОГЛАВЛЕНИЕ -->
+
+<aside class="sidebar" id="toc">
+  <div class="sidebar-sticky">
+
+    <div class="sidebar-title">
+      СОДЕРЖАНИЕ
+    </div>
+
+    <nav class="toc" aria-label="Главы лонгрида">
+      <a href="#intro"><span>01</span> Цифровая экономика</a>
+      <a href="#semantic"><span>02</span> Семантическая паутина</a>
+      <a href="#stack"><span>03</span> Технологический стек</a>
+      <a href="#land"><span>04</span> Виртуальная недвижимость</a>
+      <a href="#cases"><span>05</span> Практические кейсы</a>
+      <a href="#research"><span>06</span> Научные исследования</a>
+      <a href="#demo"><span>07</span> Интерактивный каталог</a>
+      <a href="#limits"><span>08</span> Ограничения</a>
+      <a href="#conclusion"><span>09</span> Выводы</a>
+      <a href="#sources"><span>10</span> Источники</a>
+    </nav>
+
+    <div class="sidebar-note">
+      <div style="font-size:32px;color:#81ead0">◇</div>
+      <strong>О чём эта история?</strong>
+      <p>
+        От машиночитаемых данных и графов знаний
+        до виртуальных участков, цифровых прав
+        и совместимости метавселенных.
+      </p>
+    </div>
   </div>
-  <h2>От текста на экране — к графу связей</h2>
+</aside>
+
+<article class="article">
+
+<!-- ГЛАВА 1 -->
+
+<section class="chapter" id="intro">
+  <div class="chapter-label">
+    ГЛАВА 01 / ЦИФРОВАЯ ЭКОНОМИКА
+  </div>
+
+  <h2>
+    Интернет становится не только сетью
+    документов, но и <em>сетью знаний</em>
+  </h2>
+
+  <p class="dropcap">
+    Представьте виртуальную галерею. Она имеет
+    координаты, трёхмерную сцену, условия доступа,
+    перечень выставляемых объектов и историю
+    цифровых операций. Для пользователя это одно
+    пространство, но информационные системы могут
+    хранить эти сведения совершенно отдельно.
+  </p>
 
   <p>
-    Semantic Web предлагает представлять сведения
-    как сущности и отношения, пригодные для
-    автоматической обработки. Например,
-    «галерея расположена на участке» превращается
-    в формальное утверждение с идентификаторами
-    объектов. RDF описывает такое утверждение
-    как тройку «субъект — предикат — объект»
-    <a href="https://www.w3.org/TR/rdf11-concepts/"
-       target="_blank" rel="noopener">[4]</a>.
+    Развитие современной цифровой экономики
+    связано с превращением данных в ресурс
+    управления, автоматизации и взаимодействия.
+    Об этом говорится в докладе OECD Digital
+    Economy Outlook 2024
+    <a class="ref" href="#s1">[1]</a>.
+  </p>
+
+  <p>
+    Концепция «Индустрия 4.0» предполагает
+    взаимодействие цифровых двойников, сенсоров,
+    информационных систем и вычислительной
+    инфраструктуры. Исследования показывают,
+    что онтологии позволяют формализовать знания
+    о цифровых двойниках
+    <a class="ref" href="#s2">[2]</a>,
+    в том числе в строительной отрасли
+    <a class="ref" href="#s3">[3]</a>.
+  </p>
+
+  <div class="quote reveal">
+    <p>
+      Для создания совместимых цифровых миров
+      недостаточно отображать объекты.
+      Необходимо формально описывать их свойства
+      и взаимосвязи.
+    </p>
+  </div>
+
+  <p>
+    Важно различать Web 3.0 в контексте
+    семантической паутины и Web3 как обозначение
+    децентрализованных приложений и технологий
+    блокчейна. Эти направления имеют точки
+    пересечения, но не являются синонимами.
+  </p>
+</section>
+
+<!-- ГЛАВА 2 -->
+
+<section class="chapter" id="semantic">
+  <div class="chapter-label">
+    ГЛАВА 02 / SEMANTIC WEB
+  </div>
+
+  <h2>
+    Как заставить данные <em>понимать</em>
+    друг друга?
+  </h2>
+
+  <p>
+    Семантическая паутина — направление развития
+    веб-технологий, предполагающее формальное
+    описание информации, её свойств и отношений
+    между объектами.
+  </p>
+
+  <p>
+    Основой выступает модель RDF, в которой
+    информация представляется в виде триплетов:
+    субъект, предикат и объект
+    <a class="ref" href="#s4">[4]</a>.
   </p>
 
   <figure class="figure reveal">
     <div class="triple">
-      <div class="node">Галерея 7</div>
-      <div class="arrow">→</div>
-      <div class="node">расположена на</div>
-      <div class="arrow">→</div>
-      <div class="node">LAND-42</div>
+      <div class="triple-node">
+        <small>СУБЪЕКТ</small>
+        Галерея
+      </div>
+
+      <span class="triple-arrow">→</span>
+
+      <div class="triple-node accent">
+        <small>ПРЕДИКАТ</small>
+        расположена на
+      </div>
+
+      <span class="triple-arrow">→</span>
+
+      <div class="triple-node">
+        <small>ОБЪЕКТ</small>
+        LAND-42
+      </div>
     </div>
+
     <figcaption>
-      Авторская схема RDF-триплета: сведения
-      об объекте становятся формальным отношением,
-      понятным программе.
+      Рисунок 1. Пример RDF-триплета,
+      описывающего отношение между виртуальной
+      галереей и земельным участком.
+      Авторская схема.
     </figcaption>
   </figure>
 
   <p>
-    Сеть триплетов формирует граф знаний.
-    RDFS описывает классы и свойства;
-    OWL 2 позволяет моделировать более сложные
-    понятия и логические связи
-    <a href="https://www.w3.org/TR/owl2-overview/"
-       target="_blank" rel="noopener">[5]</a>.
-    При этом онтология не гарантирует
-    достоверности исходных данных.
+    Если объединить множество подобных утверждений,
+    возникает граф знаний. Его узлами могут быть
+    здания, пользователи, платформы, события
+    и цифровые активы, а рёбрами — отношения
+    между ними.
   </p>
 
   <p>
-    Важно различать семантический HTML,
-    структурированную разметку Schema.org
-    <a href="https://schema.org/docs/gs.html"
-       target="_blank" rel="noopener">[6]</a>
-    и полноценную архитектуру Semantic Web.
-    HTML улучшает структуру документа;
-    Schema.org задаёт общие словари для публикаций;
-    RDF и онтологии обеспечивают формальные связи
-    между наборами данных.
-  </p>
-</section>
-</div>
-
-<section class="section" id="stack">
-  <div class="label">Глава 03 / Технологии</div>
-  <h2>
-    Шесть инструментов, которые превращают
-    данные в знания
-  </h2>
-
-  <p>
-    Стек Semantic Web включает RDF, RDFS, OWL 2,
-    SPARQL для запросов к графам
-    <a href="https://www.w3.org/TR/sparql11-overview/"
-       target="_blank" rel="noopener">[7]</a>,
-    SHACL для проверки ограничений
-    <a href="https://www.w3.org/TR/shacl/"
-       target="_blank" rel="noopener">[8]</a>
-    и JSON-LD для публикации связанных данных
-    в привычном JSON-формате
-    <a href="https://www.w3.org/TR/json-ld11/"
-       target="_blank" rel="noopener">[9]</a>.
-  </p>
-
-  <div class="flow reveal">
-    <div>
-      <b>RDF</b>
-      Факты в виде триплетов
-    </div>
-    <div>
-      <b>OWL</b>
-      Онтологии и классы
-    </div>
-    <div>
-      <b>SPARQL</b>
-      Запросы к графам
-    </div>
-    <div>
-      <b>JSON-LD</b>
-      Обмен метаданными
-    </div>
-    <div>
-      <b>SHACL</b>
-      Контроль структуры
-    </div>
-    <div>
-      <b>GeoSPARQL</b>
-      Пространственные отношения
-    </div>
-  </div>
-
-  <p>
-    Проект RDF 1.2 на момент подготовки исходного
-    реферата имел статус Candidate Recommendation,
-    поэтому его нельзя без проверки называть
-    окончательной рекомендацией W3C
-    <a href="https://www.w3.org/TR/rdf12-concepts/"
-       target="_blank" rel="noopener">[10]</a>.
-    Для географических отношений OGC разработал
-    GeoSPARQL 1.1
-    <a href="https://docs.ogc.org/is/22-047r1/22-047r1.html"
-       target="_blank" rel="noopener">[11]</a>.
-  </p>
-
-  <p>
-    Современные исследования также связывают
-    онтологии и графы знаний с большими языковыми
-    моделями. Шимизу и Хитцлер рассматривают
-    ускорение инженерии знаний с помощью LLM
-    <a href="https://doi.org/10.1016/j.websem.2025.100862"
-       target="_blank" rel="noopener">[12]</a>;
-    Ли, Гарихо и Поведа-Вильялон анализируют
-    научные подходы к автоматизации построения
-    онтологий
-    <a href="https://doi.org/10.1177/22104968261465514"
-       target="_blank" rel="noopener">[13]</a>.
-    Автоматически созданные словари всё равно
-    требуют проверки специалистами.
-  </p>
-</section>
-
-<div class="band">
-<section class="section" id="land">
-  <div class="label">
-    Глава 04 / Виртуальная недвижимость
-  </div>
-  <h2>
-    Участок существует. Но что принадлежит владельцу?
-  </h2>
-
-  <p>
-    Виртуальная недвижимость — цифровые участки
-    и помещения внутри онлайн-миров, использование
-    которых регулируют правила конкретной платформы.
-    Эти объекты могут иметь координаты, соседей,
-    3D-сцены и экономическую стоимость.
-    Но название «земля» не делает их физической
-    недвижимостью.
-  </p>
-
-  <p>
-    Руджери, Марелла и Габриэлли исследуют
-    характеристики и оценку виртуальной земли
-    <a href="https://doi.org/10.3390/land13081135"
-       target="_blank" rel="noopener">[14]</a>.
-    Вычик рассматривает различия между токеном
-    и интеллектуальными правами
-    <a href="https://doi.org/10.1093/jiplp/jpad124"
-       target="_blank" rel="noopener">[15]</a>,
-    а Алькантара Франсия и соавторы —
-    юридическую природу виртуального владения
-    <a href="https://doi.org/10.20318/eunomia.2026.10376"
-       target="_blank" rel="noopener">[16]</a>.
+    Язык OWL 2 предназначен для формального
+    описания онтологий, классов и свойств
+    <a class="ref" href="#s5">[5]</a>.
+    Онтологии позволяют согласовывать
+    терминологию между разными системами.
   </p>
 
   <div class="note">
-    <strong>Не путать:</strong>
-    NFT может подтверждать запись о токене,
-    но не автоматически передаёт авторские права
-    на 3D-контент, не гарантирует работу сервера
-    и не заменяет пользовательское соглашение
-    платформы.
+    <strong>Важное различие</strong>
+    <p>
+      Семантический HTML улучшает структуру
+      веб-страницы, Schema.org помогает публиковать
+      общепринятые структурированные данные
+      <a class="ref" href="#s6">[6]</a>,
+      а Semantic Web охватывает более широкую
+      архитектуру формальных связей и онтологий.
+    </p>
   </div>
+
+  <p>
+    Однако даже корректно составленный граф
+    не гарантирует достоверность информации.
+    Семантические технологии решают вопросы
+    структуры и интерпретации данных, тогда
+    как проверка их происхождения требует
+    дополнительных механизмов.
+  </p>
+</section>
+
+<!-- ГЛАВА 3 -->
+
+<section class="chapter" id="stack">
+  <div class="chapter-label">
+    ГЛАВА 03 / ТЕХНОЛОГИЧЕСКИЙ СТЕК
+  </div>
+
+  <h2>
+    Инструменты, на которых строится
+    <em>семантический веб</em>
+  </h2>
+
+  <p>
+    Для работы со связанными данными разработан
+    комплекс стандартов. SPARQL позволяет
+    выполнять запросы к RDF-графам
+    <a class="ref" href="#s7">[7]</a>,
+    SHACL — проверять ограничения структуры
+    данных <a class="ref" href="#s8">[8]</a>,
+    а JSON-LD — публиковать связанные данные
+    в JSON-представлении
+    <a class="ref" href="#s9">[9]</a>.
+  </p>
+
+  <div class="tech-grid">
+
+    <div class="tech-card reveal">
+      <small>01 / ДАННЫЕ</small>
+      <h3>RDF</h3>
+      <p>
+        Представление информации в виде
+        связанных утверждений.
+      </p>
+    </div>
+
+    <div class="tech-card reveal">
+      <small>02 / ОНТОЛОГИИ</small>
+      <h3>OWL</h3>
+      <p>
+        Описание классов, свойств,
+        отношений и ограничений.
+      </p>
+    </div>
+
+    <div class="tech-card reveal">
+      <small>03 / ЗАПРОСЫ</small>
+      <h3>SPARQL</h3>
+      <p>
+        Поиск и извлечение данных
+        из семантических графов.
+      </p>
+    </div>
+
+    <div class="tech-card reveal">
+      <small>04 / ОБМЕН</small>
+      <h3>JSON-LD</h3>
+      <p>
+        Передача связанных данных
+        через веб-приложения и API.
+      </p>
+    </div>
+
+    <div class="tech-card reveal">
+      <small>05 / КОНТРОЛЬ</small>
+      <h3>SHACL</h3>
+      <p>
+        Проверка структуры и обязательных
+        свойств описываемых объектов.
+      </p>
+    </div>
+
+    <div class="tech-card reveal">
+      <small>06 / ГЕОДАННЫЕ</small>
+      <h3>GeoSPARQL</h3>
+      <p>
+        Описание пространственных
+        отношений и запросов.
+      </p>
+    </div>
+
+  </div>
+
+  <p>
+    Развитие стандартов продолжается.
+    В работе рассмотрен проект RDF 1.2
+    <a class="ref" href="#s10">[10]</a>,
+    а для пространственных отношений —
+    стандарт GeoSPARQL 1.1
+    <a class="ref" href="#s11">[11]</a>.
+    При использовании проектов стандартов
+    необходимо проверять их текущий статус.
+  </p>
+
+  <h3>Semantic Web и искусственный интеллект</h3>
+
+  <p>
+    Большие языковые модели открывают новые
+    возможности автоматизации построения графов
+    знаний и онтологий. Соответствующие подходы
+    рассматриваются в исследованиях Шимизу
+    и Хитцлера <a class="ref" href="#s12">[12]</a>,
+    а также Ли, Гарихо и Поведы-Вильялон
+    <a class="ref" href="#s13">[13]</a>.
+  </p>
+
+  <p>
+    Тем не менее автоматическое формирование
+    онтологии не исключает ошибок. Полученные
+    определения и связи должны проверяться
+    специалистами предметной области.
+  </p>
+
+  <div class="interlude reveal">
+    <div>
+      <div class="eyebrow">
+        ОТ ТЕХНОЛОГИИ К ПРИМЕНЕНИЮ
+      </div>
+      <h3>
+        А что, если описывать таким образом
+        <em>целые виртуальные города?</em>
+      </h3>
+    </div>
+  </div>
+
+</section>
+
+<!-- ГЛАВА 4 -->
+
+<section class="chapter" id="land">
+  <div class="chapter-label">
+    ГЛАВА 04 / ВИРТУАЛЬНАЯ НЕДВИЖИМОСТЬ
+  </div>
+
+  <h2>
+    Цифровая земля:
+    <em>собственность или доступ?</em>
+  </h2>
+
+  <p>
+    Виртуальная недвижимость включает цифровые
+    земельные участки, здания и пространства
+    внутри онлайн-платформ. Такие объекты
+    могут использоваться для выставок,
+    встреч, обучения, торговли и развлечений.
+  </p>
+
+  <p>
+    Исследование Ruggeri, Marella и Gabrielli
+    рассматривает особенности стоимости
+    виртуальных земельных участков
+    <a class="ref" href="#s14">[14]</a>.
+  </p>
 
   <figure class="figure reveal">
     <img
-      class="photo"
-      alt="Человек использует шлем виртуальной реальности"
-      src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Oculus_player.jpg/960px-Oculus_player.jpg"
+      src="https://images.unsplash.com/photo-1617791160536-598cf32026fb?auto=format&fit=crop&w=1300&q=85"
+      alt="Абстрактная цифровая визуализация виртуального пространства"
       loading="lazy"
     >
     <figcaption>
-      Фотография VR-устройства — иллюстрация
-      интерфейса виртуальных миров,
-      не изображение конкретного участка
-      Decentraland или The Sandbox.
-      Источник: Wikimedia Commons.
+      Рисунок 2. Иллюстративный образ цифровой
+      среды. Изображение не является снимком
+      конкретной платформы виртуальной недвижимости.
     </figcaption>
   </figure>
-</section>
-</div>
 
-<section class="section" id="cases">
-  <div class="label">
-    Глава 05 / Практические кейсы
+  <p>
+    Виртуальный участок может быть связан с NFT,
+    но владение токеном нельзя автоматически
+    приравнивать к юридическому праву собственности
+    на объект. Отдельно возникают вопросы
+    интеллектуальных прав на цифровой контент,
+    рассмотренные Wyczik
+    <a class="ref" href="#s15">[15]</a>.
+  </p>
+
+  <p>
+    Юридическая природа виртуальной собственности
+    остаётся предметом исследования. Её анализируют
+    Alcántara Francia и соавторы
+    <a class="ref" href="#s16">[16]</a>.
+  </p>
+
+  <div class="note green">
+    <strong>Необходимо различать</strong>
+    <p>
+      Владение NFT, разрешение использовать
+      виртуальный участок, авторские права
+      на 3D-сцену и право собственности
+      на физическую недвижимость.
+      Эти категории не являются тождественными.
+    </p>
   </div>
+
+  <h3>Основные технологии виртуальных миров</h3>
+
+  <p>
+    Развитие виртуальных пространств зависит
+    от облачной и сетевой инфраструктуры,
+    трёхмерной графики, средств взаимодействия,
+    идентификации пользователей, систем
+    безопасности и управления цифровыми активами.
+    Блокчейн может использоваться для фиксации
+    операций, но не является обязательным
+    компонентом любого виртуального мира.
+  </p>
+
+</section>
+
+<!-- ГЛАВА 5 -->
+
+<section class="chapter" id="cases">
+  <div class="chapter-label">
+    ГЛАВА 05 / ПРАКТИЧЕСКИЕ КЕЙСЫ
+  </div>
+
   <h2>
-    Две платформы — две модели цифрового пространства
+    Платформы, на которых строятся
+    <em>цифровые пространства</em>
   </h2>
 
-  <div class="card-grid">
-    <div class="card">
+  <div class="case reveal">
+    <div class="case-index">01</div>
+
+    <div>
       <h3>Decentraland</h3>
       <p>
-        Платформа использует виртуальные участки
-        LAND и Estates. Пользователи публикуют
-        сцены и мероприятия в пределах правил мира.
-        Описание управления участками см.
-        в официальной документации
-        <a href="https://docs.decentraland.org/marketplace/land-manager"
-           target="_blank" rel="noopener">[17]</a>.
+        Decentraland представляет виртуальный мир,
+        в котором пользователи взаимодействуют
+        с цифровыми участками LAND, размещают сцены,
+        организуют мероприятия и управляют
+        виртуальными пространствами.
       </p>
+      <p>
+        Практические сведения об управлении
+        участками представлены в документации
+        платформы
+        <a class="ref" href="#s17">[17]</a>.
+      </p>
+      <a href="https://decentraland.org/"
+         target="_blank" rel="noopener">
+        Официальный сайт ↗
+      </a>
     </div>
+  </div>
 
-    <div class="card">
+  <div class="case reveal">
+    <div class="case-index">02</div>
+
+    <div>
       <h3>The Sandbox</h3>
       <p>
-        LAND связывается с размещением
-        пользовательских Experiences.
-        Для работы объектов важны инструменты
-        платформы, а не только запись
-        о цифровом активе. См. официальное описание
-        <a href="https://docs.sandbox.game/en/owners/land"
-           target="_blank" rel="noopener">[18]</a>.
+        The Sandbox использует виртуальные участки
+        LAND, которые могут служить пространством
+        размещения пользовательских интерактивных
+        Experiences.
       </p>
+      <p>
+        Официальная документация описывает
+        назначение LAND и связанные механизмы
+        платформы
+        <a class="ref" href="#s18">[18]</a>.
+      </p>
+      <a href="https://www.sandbox.game/"
+         target="_blank" rel="noopener">
+        Официальный сайт ↗
+      </a>
     </div>
   </div>
 
-  <h3>Видео: пример виртуального мира</h3>
+  <div class="video-box reveal">
+    <div class="eyebrow">ВИДЕОКЕЙС</div>
+    <h3>Виртуальный мир Decentraland</h3>
 
-  <div class="video">
-    <iframe
-      src="https://www.youtube-nocookie.com/embed/EaddnOkoA90"
-      title="Decentraland: официальный видеокейс"
-      loading="lazy"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen>
-    </iframe>
+    <div class="video-frame">
+      <iframe
+        src="https://www.youtube-nocookie.com/embed/EaddnOkoA90"
+        title="Видеокейс Decentraland"
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+
+    <p>
+      Видео демонстрирует визуальные возможности
+      цифровой платформы. Для воспроизведения
+      требуется доступ к YouTube.
+    </p>
   </div>
 
-  <p class="small">
-    Видео с YouTube загружается при наличии доступа
-    к видеосервису. Это практический кейс,
-    а не научное подтверждение экономических прогнозов.
+  <p>
+    Опыт обеих платформ показывает,
+    что функционирование виртуальной недвижимости
+    зависит не только от механизма регистрации
+    активов, но и от программного обеспечения,
+    пользовательского сообщества,
+    содержимого виртуальных сцен
+    и устойчивости сервисов.
   </p>
+
 </section>
 
-<div class="band">
-<section class="section" id="research">
-  <div class="label">
-    Глава 06 / Научные данные
+<!-- ГЛАВА 6 -->
+
+<section class="chapter" id="research">
+  <div class="chapter-label">
+    ГЛАВА 06 / НАУЧНЫЕ ИССЛЕДОВАНИЯ
   </div>
+
   <h2>
-    Что исследования говорят о рынке виртуальной земли
+    Что наука говорит о стоимости
+    <em>виртуальной земли?</em>
   </h2>
 
   <p>
-    Леонхард, Нагль и Шеферс исследуют связь
-    рынка виртуальной земли с физической
-    недвижимостью. Выводы зависят от
-    рассматриваемых данных и периода,
-    поэтому нельзя переносить их на все платформы
-    <a href="https://doi.org/10.1108/JERER-04-2024-0025"
-       target="_blank" rel="noopener">[19]</a>.
+    Экономическая модель виртуальной недвижимости
+    отличается от рынка физической земли.
+    Ценность виртуального участка зависит
+    от активности платформы, качества окружения,
+    доступности сервисов и поведения сообщества.
   </p>
 
   <p>
-    Сэнгчоте, Накавачара и Сюй анализируют сетевые
-    эффекты нового предложения виртуальных участков
-    <a href="https://doi.org/10.1016/j.joitmc.2025.100625"
-       target="_blank" rel="noopener">[20]</a>.
-    В одной из моделей авторы оценивают эффект
-    соседства приблизительно в 9%;
-    это оценка конкретной модели, а не универсальный
-    рост цен во всех метавселенных.
+    Leonhard, Nagl и Schaefers изучают
+    динамическую связь виртуальной земли
+    с физической недвижимостью
+    <a class="ref" href="#s19">[19]</a>.
   </p>
 
-  <figure class="stat reveal">
-    <strong>≈ 9%</strong>
-    <span>
-      Оценка отдельного модельного эффекта
-      в исследовании [20].
-      Не означает гарантированную доходность
-      или среднерыночную динамику.
-    </span>
-  </figure>
+  <div class="research-grid">
 
-  <p>
-    Ханнеке, Хесс и Хинц рассматривают основания
-    децентрализованных экономик метавселенных
-    и пересечение виртуальных и физических
-    взаимодействий
-    <a href="https://doi.org/10.1080/07421222.2025.2452017"
-       target="_blank" rel="noopener">[21]</a>.
-    Реальные модели зависят от управления платформой,
-    сетевых эффектов и устойчивой активности
-    участников.
-  </p>
-</section>
-</div>
+    <div class="research-card reveal">
+      <small>ИССЛЕДОВАНИЕ / 2024</small>
+      <h3>Стоимость цифровых участков</h3>
+      <p>
+        Анализ характеристик виртуальной
+        недвижимости и подходов к оценке.
+      </p>
+    </div>
 
-<section class="section" id="demo">
-  <div class="label">
-    Глава 07 / Интерактивная модель
+    <div class="research-card reveal">
+      <small>ИССЛЕДОВАНИЕ / 2025</small>
+      <h3>Виртуальная и физическая недвижимость</h3>
+      <p>
+        Изучение взаимосвязей между
+        разными типами рынков.
+      </p>
+    </div>
+
+    <div class="research-card reveal">
+      <small>ИССЛЕДОВАНИЕ / 2025</small>
+      <h3>Сетевые эффекты</h3>
+      <p>
+        Оценка влияния предложения
+        и окружения виртуальных участков.
+      </p>
+    </div>
+
   </div>
+
+  <p>
+    Saengchote, Nakavachara и Xu рассматривают
+    сетевые эффекты нового предложения
+    виртуальной земли
+    <a class="ref" href="#s20">[20]</a>.
+    В одной из моделей исследования оценка
+    эффекта соседства составляет приблизительно
+    девять процентов.
+  </p>
+
+  <div class="stat reveal">
+    <div class="stat-number">≈ 9%</div>
+    <p>
+      Оценка отдельного эффекта соседства
+      в одной из моделей исследования [20].
+      Это не среднерыночный рост стоимости
+      и не прогноз доходности виртуальной земли.
+    </p>
+  </div>
+
+  <p>
+    Hanneke, Heß и Hinz рассматривают
+    основы децентрализованных экономик
+    метавселенных и их взаимодействие
+    с реальными экономическими процессами
+    <a class="ref" href="#s21">[21]</a>.
+  </p>
+
+  <div class="note">
+    <strong>Как интерпретировать исследования?</strong>
+    <p>
+      Выводы отдельных научных работ относятся
+      к конкретным платформам, выборкам,
+      временным периодам и эконометрическим
+      моделям. Их нельзя автоматически
+      распространять на весь рынок
+      виртуальной недвижимости.
+    </p>
+  </div>
+
+</section>
+
+<!-- ГЛАВА 7 -->
+
+<section class="chapter" id="demo">
+  <div class="chapter-label">
+    ГЛАВА 07 / ИНТЕРАКТИВНАЯ МОДЕЛЬ
+  </div>
+
   <h2>
-    Как мог бы работать единый каталог
-    виртуальных пространств
+    Как мог бы работать
+    <em>единый семантический каталог?</em>
   </h2>
 
   <p>
-    Возможный проект: совместимый каталог
-    собирает идентификатор объекта, платформу,
-    координаты, назначение, формат сцены,
-    условия доступа и происхождение метаданных.
-    RDF и OWL задают модель, JSON-LD передаёт
-    данные, SHACL проверяет поля,
-    SPARQL помогает делать запросы.
+    Представим каталог виртуальных пространств,
+    в котором можно находить объекты
+    по назначению, характеристикам,
+    типу доступа и связям с другими объектами.
   </p>
 
   <p>
-    Выбери объект и посмотри, как его описание
-    может выглядеть в JSON-LD.
-    Это учебный пример, не подключённый
-    к реальным API платформ.
+    Для этого необходимо формально описать
+    объекты, определить их идентификаторы,
+    согласовать онтологии и обеспечить обмен
+    структурированными метаданными.
   </p>
 
   <div class="demo">
-    <strong>SEMANTIC DIRECTORY · ДЕМО</strong>
 
-    <div class="tabs"
-         role="group"
-         aria-label="Выбор типа объекта">
+    <div class="demo-header">
+      SEMANTIC DIRECTORY
+      <span>● ИНТЕРАКТИВНО</span>
+    </div>
 
+    <div class="demo-tabs">
       <button type="button"
-              data-item="gallery"
+              class="active"
+              data-type="gallery"
               aria-pressed="true">
         Галерея
       </button>
 
       <button type="button"
-              data-item="office"
-              aria-pressed="false">
-        Офис
-      </button>
-
-      <button type="button"
-              data-item="event"
+              data-type="event"
               aria-pressed="false">
         Площадка событий
       </button>
+
+      <button type="button"
+              data-type="education"
+              aria-pressed="false">
+        Кампус
+      </button>
     </div>
 
-    <div class="result"
-         id="demo-caption"
-         aria-live="polite">
+    <div class="demo-grid">
+
+      <div class="demo-visual">
+        <svg viewBox="0 0 380 310"
+             role="img"
+             aria-label="Интерактивная схема связей цифрового объекта">
+
+          <defs>
+            <linearGradient id="nodeGradient"
+                            x1="0" y1="0"
+                            x2="1" y2="1">
+              <stop offset="0" stop-color="#9bead7"/>
+              <stop offset="1" stop-color="#6cb4e4"/>
+            </linearGradient>
+          </defs>
+
+          <g stroke="#77cbbd"
+             stroke-width="2"
+             opacity=".8">
+            <line x1="190" y1="150" x2="75" y2="60"/>
+            <line x1="190" y1="150" x2="310" y2="60"/>
+            <line x1="190" y1="150" x2="75" y2="250"/>
+            <line x1="190" y1="150" x2="310" y2="250"/>
+          </g>
+
+          <g fill="#f3fbf7" stroke="#9adacb" stroke-width="2">
+            <circle cx="75" cy="60" r="45"/>
+            <circle cx="310" cy="60" r="45"/>
+            <circle cx="75" cy="250" r="45"/>
+            <circle cx="310" cy="250" r="45"/>
+          </g>
+
+          <circle cx="190" cy="150"
+                  r="66"
+                  fill="url(#nodeGradient)"/>
+
+          <g text-anchor="middle"
+             fill="#163842"
+             font-family="Arial"
+             font-size="14">
+            <text x="190" y="143"
+                  font-weight="bold"
+                  id="graph-title">
+              Галерея
+            </text>
+            <text x="190" y="163"
+                  font-size="11"
+                  id="graph-id">
+              OBJ-042
+            </text>
+
+            <text x="75" y="56">Участок</text>
+            <text x="75" y="74"
+                  font-size="11">LAND-42</text>
+
+            <text x="310" y="56">Платформа</text>
+            <text x="310" y="74"
+                  font-size="11">World-A</text>
+
+            <text x="75" y="247">Доступ</text>
+            <text x="75" y="266"
+                  font-size="11"
+                  id="graph-access">
+              публичный
+            </text>
+
+            <text x="310" y="247">Тип</text>
+            <text x="310" y="266"
+                  font-size="11"
+                  id="graph-category">
+              выставка
+            </text>
+          </g>
+
+        </svg>
+      </div>
+
+      <div class="demo-info">
+        <div class="eyebrow">
+          СЕМАНТИЧЕСКАЯ КАРТОЧКА
+        </div>
+
+        <h3 id="demo-name">
+          Галерея «Орбита»
+        </h3>
+
+        <p id="demo-description">
+          Публичная выставочная сцена,
+          связанная с участком и условиями доступа.
+        </p>
+
+        <pre id="demo-json"></pre>
+      </div>
+
     </div>
 
-    <pre id="json-output"></pre>
+    <div class="demo-note">
+      Учебная демонстрация принципов структурированных
+      данных. Объекты являются условными и не связаны
+      с реальными API метавселенных.
+    </div>
+
   </div>
 
   <p>
-    Важно: единая онтология не переносит между
-    платформами игровые движки, сцены, лицензии
-    или право собственности. Для проверки
-    предложенной архитектуры требуется прототип
-    и данные как минимум двух разных площадок.
+    Для создания реального каталога потребуются
+    устойчивые идентификаторы объектов,
+    онтологии, механизмы публикации метаданных,
+    валидация SHACL и запросы SPARQL.
   </p>
+
+  <div class="note green">
+    <strong>Возможное практическое применение</strong>
+    <p>
+      Семантический поиск сможет находить
+      виртуальные пространства по их свойствам,
+      например публичные галереи,
+      подходящие для выставок,
+      независимо от способа хранения
+      информации в отдельных каталогах.
+    </p>
+  </div>
+
+  <p>
+    При этом совместимость метаданных
+    не означает автоматический перенос
+    виртуальной недвижимости, 3D-сцен,
+    токенов или лицензий между платформами.
+  </p>
+
 </section>
 
-<div class="band">
-<section class="section" id="limits">
-  <div class="label">
-    Глава 08 / Критический взгляд
+<!-- ГЛАВА 8 -->
+
+<section class="chapter" id="limits">
+  <div class="chapter-label">
+    ГЛАВА 08 / ОГРАНИЧЕНИЯ И РИСКИ
   </div>
+
   <h2>
-    Право, безопасность и несовместимость платформ
+    Почему единого цифрового мира
+    <em>пока не существует?</em>
   </h2>
 
-  <ul>
-    <li>
-      <strong>Права:</strong>
-      токен, лицензия, доступ к сцене
-      и авторские права — разные категории.
-    </li>
-    <li>
-      <strong>Надёжность:</strong>
-      запись в реестре не гарантирует
-      работу сервера, интерфейса или хранилища.
-    </li>
-    <li>
-      <strong>Совместимость:</strong>
-      общие метаданные не делают автоматически
-      совместимыми 3D-движки и скрипты.
-    </li>
-    <li>
-      <strong>Достоверность:</strong>
-      ошибки метаданных требуют аудита,
-      проверки источника и истории обновлений.
-    </li>
-    <li>
-      <strong>Безопасность:</strong>
-      существуют риски компрометации кошельков,
-      фишинга, уязвимостей контрактов
-      и потери доступа.
-    </li>
-    <li>
-      <strong>Конфиденциальность:</strong>
-      связи между аккаунтами, активами
-      и действиями не всегда должны
-      быть публичными.
-    </li>
-  </ul>
-
-  <div class="note">
-    Главный вывод: Semantic Web улучшает
-    описания объектов, но не устраняет
-    организационные, правовые
-    и экономические риски сам по себе.
+  <div class="risk">
+    <div class="risk-number">01</div>
+    <div>
+      <strong>Правовая неопределённость</strong>
+      <p>
+        Цифровой токен, доступ к виртуальной сцене,
+        лицензия на 3D-контент и право собственности
+        не являются одинаковыми правовыми категориями.
+      </p>
+    </div>
   </div>
-</section>
-</div>
 
-<section class="section" id="conclusion">
-  <div class="label">
-    Глава 09 / Выводы
+  <div class="risk">
+    <div class="risk-number">02</div>
+    <div>
+      <strong>Зависимость от платформ</strong>
+      <p>
+        Работа цифрового объекта зависит
+        от серверов, приложений,
+        правил платформы и инфраструктуры хранения.
+      </p>
+    </div>
   </div>
-  <h2>
-    Не новая «земля», а новый способ
-    понимать цифровые миры
-  </h2>
+
+  <div class="risk">
+    <div class="risk-number">03</div>
+    <div>
+      <strong>Несовместимость технологий</strong>
+      <p>
+        Общая онтология не обеспечивает
+        автоматическую совместимость графических
+        движков, сценариев и систем доступа.
+      </p>
+    </div>
+  </div>
+
+  <div class="risk">
+    <div class="risk-number">04</div>
+    <div>
+      <strong>Качество информации</strong>
+      <p>
+        Даже формально корректная запись
+        может содержать недостоверные данные.
+        Необходимы аудит, проверка происхождения
+        и регулярное обновление информации.
+      </p>
+    </div>
+  </div>
+
+  <div class="risk">
+    <div class="risk-number">05</div>
+    <div>
+      <strong>Экономическая нестабильность</strong>
+      <p>
+        Стоимость виртуальных активов зависит
+        от спроса, жизнеспособности платформы,
+        активности пользователей и сетевых эффектов.
+      </p>
+    </div>
+  </div>
 
   <p>
-    Потенциал Semantic Web для виртуальной недвижимости
-    связан с согласованным описанием объектов,
-    а не с обещанием роста стоимости участков.
-    Формальные идентификаторы, онтологии,
-    графы знаний и запросы позволяют объединять
-    сведения о цифровых пространствах.
+    Дополнительные проблемы связаны
+    с конфиденциальностью, защитой пользователей,
+    безопасностью кошельков, управлением правами,
+    сохранностью контента и изменчивостью
+    технических стандартов.
   </p>
 
-  <p>
-    Приоритетны надёжные сети и облачные вычисления,
-    открытые 3D-форматы, управление идентичностью
-    и доступом, безопасность, а также совместимые
-    метаданные. Совместное применение RDF,
-    JSON-LD, SHACL, SPARQL и согласованных
-    онтологий создаёт основу для
-    межплатформенного поиска.
-  </p>
-
-  <p>
-    Следующий исследовательский шаг —
-    прототип общего каталога виртуальных объектов
-    на данных минимум двух площадок
-    с проверкой качества, актуальности
-    и происхождения метаданных.
-  </p>
 </section>
 
-<div class="band">
-<section class="section" id="sources">
-  <div class="label">
-    Глава 10 / Источники
+<!-- ГЛАВА 9 -->
+
+<section class="chapter final-section" id="conclusion">
+  <div class="chapter-label">
+    ГЛАВА 09 / ВЫВОДЫ
   </div>
+
   <h2>
-    Научные статьи, стандарты, документация
+    Будущее виртуальных пространств —
+    это не только графика,
+    но и <em>смысл данных</em>
   </h2>
 
-  <p class="small">
-    Нумерация соответствует порядку первого
-    появления в материале и итоговому реферату ЛР №1.
+  <p>
+    Семантическая паутина может стать
+    важным технологическим компонентом
+    виртуальной недвижимости благодаря
+    формальному описанию цифровых объектов,
+    онтологиям и графам знаний.
   </p>
 
-  <ol class="refs">
-    <li>
-      OECD. <i>OECD Digital Economy Outlook 2024
-      (Volume 1): Embracing the Technology Frontier.</i>
-      Paris: OECD Publishing, 2024.
-      DOI:
-      <a href="https://doi.org/10.1787/a1689dc5-en">
-        10.1787/a1689dc5-en
+  <p>
+    Для развития виртуальных миров
+    необходимы надёжная инфраструктура,
+    совместимые 3D-форматы,
+    системы идентификации, безопасность
+    и механизмы обмена структурированными данными.
+  </p>
+
+  <p>
+    Совместное применение RDF, OWL,
+    JSON-LD, SHACL и SPARQL позволяет
+    рассматривать архитектуру межплатформенного
+    каталога виртуальных пространств.
+  </p>
+
+  <p>
+    Однако такой каталог сам по себе
+    не решает правовые вопросы,
+    не переносит цифровые активы
+    и не гарантирует устойчивость платформ.
+    Практическая применимость подхода
+    требует проверки на реальных данных.
+  </p>
+
+  <div class="final-quote reveal">
+    Будущее цифровых миров зависит не только
+    от того, что в них можно построить,
+    но и от того, что другие системы смогут
+    об этих пространствах понять.
+  </div>
+</section>
+
+<!-- ГЛАВА 10 -->
+
+<section class="chapter sources" id="sources">
+  <div class="chapter-label">
+    ГЛАВА 10 / ИСТОЧНИКИ
+  </div>
+
+  <h2>
+    Научные исследования,
+    стандарты и документация
+  </h2>
+
+  <p>
+    Библиография содержит 21 источник,
+    использованный при подготовке
+    лабораторной работы №1.
+    Номера в тексте соответствуют
+    порядку первого упоминания.
+  </p>
+
+  <ol>
+
+    <li id="s1">
+      OECD Digital Economy Outlook 2024
+      (Volume 1): Embracing the Technology Frontier.
+      OECD Publishing, 2024.
+      <a href="https://doi.org/10.1787/a1689dc5-en"
+         target="_blank" rel="noopener">
+        DOI: 10.1787/a1689dc5-en
       </a>.
     </li>
 
-    <li>
+    <li id="s2">
       Karabulut E., Pileggi S. F., Groth P.,
       Degeler V. Ontologies in digital twins:
       A systematic literature review //
-      <i>Future Generation Computer Systems.</i>
+      Future Generation Computer Systems.
       2024. Vol. 153. P. 442–456.
-      DOI:
-      <a href="https://doi.org/10.1016/j.future.2023.12.013">
-        10.1016/j.future.2023.12.013
+      <a href="https://doi.org/10.1016/j.future.2023.12.013"
+         target="_blank" rel="noopener">
+        DOI: 10.1016/j.future.2023.12.013
       </a>.
     </li>
 
-    <li>
+    <li id="s3">
       Schlenger J., Pluta K., Mathew A. et al.
-      Reference architecture and ontology
-      framework for digital twin construction //
-      <i>Automation in Construction.</i>
+      Reference architecture and ontology framework
+      for digital twin construction //
+      Automation in Construction.
       2025. Vol. 174. Art. 106111.
-      DOI:
-      <a href="https://doi.org/10.1016/j.autcon.2025.106111">
-        10.1016/j.autcon.2025.106111
+      <a href="https://doi.org/10.1016/j.autcon.2025.106111"
+         target="_blank" rel="noopener">
+        DOI: 10.1016/j.autcon.2025.106111
       </a>.
     </li>
 
-    <li>
+    <li id="s4">
       W3C. RDF 1.1 Concepts and Abstract Syntax.
-      2014.
-      <a href="https://www.w3.org/TR/rdf11-concepts/">
-        https://www.w3.org/TR/rdf11-concepts/
+      W3C Recommendation, 2014.
+      <a href="https://www.w3.org/TR/rdf11-concepts/"
+         target="_blank" rel="noopener">
+        Официальная спецификация
       </a>.
     </li>
 
-    <li>
+    <li id="s5">
       W3C. OWL 2 Web Ontology Language
-      Document Overview (Second Edition). 2012.
-      <a href="https://www.w3.org/TR/owl2-overview/">
-        https://www.w3.org/TR/owl2-overview/
+      Document Overview (Second Edition).
+      W3C Recommendation, 2012.
+      <a href="https://www.w3.org/TR/owl2-overview/"
+         target="_blank" rel="noopener">
+        Официальная спецификация
       </a>.
     </li>
 
-    <li>
+    <li id="s6">
       Schema.org. Getting Started.
-      <a href="https://schema.org/docs/gs.html">
-        https://schema.org/docs/gs.html
+      <a href="https://schema.org/docs/gs.html"
+         target="_blank" rel="noopener">
+        Официальная документация
       </a>.
     </li>
 
-    <li>
-      W3C. SPARQL 1.1 Overview. 2013.
-      <a href="https://www.w3.org/TR/sparql11-overview/">
-        https://www.w3.org/TR/sparql11-overview/
+    <li id="s7">
+      W3C. SPARQL 1.1 Overview.
+      W3C Recommendation, 2013.
+      <a href="https://www.w3.org/TR/sparql11-overview/"
+         target="_blank" rel="noopener">
+        Официальная спецификация
       </a>.
     </li>
 
-    <li>
+    <li id="s8">
       W3C. Shapes Constraint Language (SHACL).
-      2017.
-      <a href="https://www.w3.org/TR/shacl/">
-        https://www.w3.org/TR/shacl/
+      W3C Recommendation, 2017.
+      <a href="https://www.w3.org/TR/shacl/"
+         target="_blank" rel="noopener">
+        Официальная спецификация
       </a>.
     </li>
 
-    <li>
-      W3C. JSON-LD 1.1: A JSON-based Serialization
-      for Linked Data. 2020.
-      <a href="https://www.w3.org/TR/json-ld11/">
-        https://www.w3.org/TR/json-ld11/
+    <li id="s9">
+      W3C. JSON-LD 1.1:
+      A JSON-based Serialization for Linked Data.
+      W3C Recommendation, 2020.
+      <a href="https://www.w3.org/TR/json-ld11/"
+         target="_blank" rel="noopener">
+        Официальная спецификация
       </a>.
     </li>
 
-    <li>
+    <li id="s10">
       W3C. RDF 1.2 Concepts and Abstract Data Model.
       Candidate Recommendation Snapshot, 2026.
-      <a href="https://www.w3.org/TR/rdf12-concepts/">
-        https://www.w3.org/TR/rdf12-concepts/
+      <a href="https://www.w3.org/TR/rdf12-concepts/"
+         target="_blank" rel="noopener">
+        Документация W3C
       </a>.
     </li>
 
-    <li>
-      OGC. GeoSPARQL: A Geographic Query Language
-      for RDF Data. Version 1.1. 2024.
-      <a href="https://docs.ogc.org/is/22-047r1/22-047r1.html">
-        https://docs.ogc.org/is/22-047r1/22-047r1.html
+    <li id="s11">
+      OGC. GeoSPARQL:
+      A Geographic Query Language for RDF Data.
+      Version 1.1. 2024.
+      <a href="https://docs.ogc.org/is/22-047r1/22-047r1.html"
+         target="_blank" rel="noopener">
+        Стандарт OGC
       </a>.
     </li>
 
-    <li>
-      Shimizu C., Hitzler P. Accelerating knowledge
-      graph and ontology engineering with large
-      language models //
-      <i>Journal of Web Semantics.</i>
+    <li id="s12">
+      Shimizu C., Hitzler P.
+      Accelerating knowledge graph and ontology
+      engineering with large language models //
+      Journal of Web Semantics.
       2025. Vol. 85. Art. 100862.
-      DOI:
-      <a href="https://doi.org/10.1016/j.websem.2025.100862">
-        10.1016/j.websem.2025.100862
+      <a href="https://doi.org/10.1016/j.websem.2025.100862"
+         target="_blank" rel="noopener">
+        DOI: 10.1016/j.websem.2025.100862
       </a>.
     </li>
 
-    <li>
+    <li id="s13">
       Li J., Garijo D., Poveda-Villalón M.
       Large Language Models for Ontology Engineering:
       A Systematic Literature Review //
-      <i>Semantic Web.</i> 2026. Vol. 17.
-      DOI:
-      <a href="https://doi.org/10.1177/22104968261465514">
-        10.1177/22104968261465514
+      Semantic Web. 2026.
+      <a href="https://doi.org/10.1177/22104968261465514"
+         target="_blank" rel="noopener">
+        DOI: 10.1177/22104968261465514
       </a>.
     </li>
 
-    <li>
+    <li id="s14">
       Ruggeri A. G., Marella G., Gabrielli L.
       Market Value or Meta Value?
       The Value of Virtual Land during
-      the Metaverse’s Digital Era //
-      <i>Land.</i> 2024. Vol. 13, no. 8.
-      Art. 1135.
-      DOI:
-      <a href="https://doi.org/10.3390/land13081135">
-        10.3390/land13081135
+      the Metaverse's Digital Era //
+      Land. 2024. Vol. 13, no. 8. Art. 1135.
+      <a href="https://doi.org/10.3390/land13081135"
+         target="_blank" rel="noopener">
+        DOI: 10.3390/land13081135
       </a>.
     </li>
 
-    <li>
+    <li id="s15">
       Wyczik J. The rise of the metaverse:
       tethering effect and intellectual property
       of crypto tokens //
-      <i>Journal of Intellectual Property
-      Law & Practice.</i>
+      Journal of Intellectual Property Law &amp; Practice.
       2024. Vol. 19, no. 4. P. 358–370.
-      DOI:
-      <a href="https://doi.org/10.1093/jiplp/jpad124">
-        10.1093/jiplp/jpad124
+      <a href="https://doi.org/10.1093/jiplp/jpad124"
+         target="_blank" rel="noopener">
+        DOI: 10.1093/jiplp/jpad124
       </a>.
     </li>
 
-    <li>
+    <li id="s16">
       Alcántara Francia O. A.,
       Huarag Guerrero E. M., Carranza Álvarez C.
       The legal nature of virtual property:
       Real right or personal right in the Metaverse? //
-      <i>EUNOMÍA.</i> 2026. No. 30. P. 111–143.
-      DOI:
-      <a href="https://doi.org/10.20318/eunomia.2026.10376">
-        10.20318/eunomia.2026.10376
+      EUNOMÍA. 2026. No. 30. P. 111–143.
+      <a href="https://doi.org/10.20318/eunomia.2026.10376"
+         target="_blank" rel="noopener">
+        DOI: 10.20318/eunomia.2026.10376
       </a>.
     </li>
 
-    <li>
-      Decentraland. LAND Manager:
+    <li id="s17">
+      Decentraland. LAND Manager.
       Official Documentation.
-      <a href="https://docs.decentraland.org/marketplace/land-manager">
-        https://docs.decentraland.org/marketplace/land-manager
+      <a href="https://docs.decentraland.org/marketplace/land-manager"
+         target="_blank" rel="noopener">
+        Документация Decentraland
       </a>.
     </li>
 
-    <li>
-      The Sandbox. LAND: Official Documentation.
-      <a href="https://docs.sandbox.game/en/owners/land">
-        https://docs.sandbox.game/en/owners/land
+    <li id="s18">
+      The Sandbox. LAND.
+      Official Documentation.
+      <a href="https://docs.sandbox.game/en/owners/land"
+         target="_blank" rel="noopener">
+        Документация The Sandbox
       </a>.
     </li>
 
-    <li>
+    <li id="s19">
       Leonhard H., Nagl M., Schaefers W.
       Virtual land in the metaverse?
       Exploring the dynamic correlation
       with physical real estate //
-      <i>Journal of European Real Estate Research.</i>
+      Journal of European Real Estate Research.
       2025. Vol. 18, no. 1. P. 121–151.
-      DOI:
-      <a href="https://doi.org/10.1108/JERER-04-2024-0025">
-        10.1108/JERER-04-2024-0025
+      <a href="https://doi.org/10.1108/JERER-04-2024-0025"
+         target="_blank" rel="noopener">
+        DOI: 10.1108/JERER-04-2024-0025
       </a>.
     </li>
 
-    <li>
+    <li id="s20">
       Saengchote K., Nakavachara V., Xu Y.
       Capitalising the network externalities
       of new land supply in the metaverse //
-      <i>Journal of Open Innovation:
-      Technology, Market, and Complexity.</i>
+      Journal of Open Innovation:
+      Technology, Market, and Complexity.
       2025. Vol. 11, no. 3. Art. 100625.
-      DOI:
-      <a href="https://doi.org/10.1016/j.joitmc.2025.100625">
-        10.1016/j.joitmc.2025.100625
+      <a href="https://doi.org/10.1016/j.joitmc.2025.100625"
+         target="_blank" rel="noopener">
+        DOI: 10.1016/j.joitmc.2025.100625
       </a>.
     </li>
 
-    <li>
+    <li id="s21">
       Hanneke B., Heß M., Hinz O.
-      Foundations of Decentralized Metaverse
-      Economies: Converging Physical and Virtual
-      Realities //
-      <i>Journal of Management Information Systems.</i>
+      Foundations of Decentralized Metaverse Economies:
+      Converging Physical and Virtual Realities //
+      Journal of Management Information Systems.
       2025. Vol. 42, no. 1. P. 238–272.
-      DOI:
-      <a href="https://doi.org/10.1080/07421222.2025.2452017">
-        10.1080/07421222.2025.2452017
+      <a href="https://doi.org/10.1080/07421222.2025.2452017"
+         target="_blank" rel="noopener">
+        DOI: 10.1080/07421222.2025.2452017
       </a>.
     </li>
+
   </ol>
+
+  <div class="note green">
+    <strong>О мультимедийных материалах</strong>
+    <p>
+      Иллюстрации используются для визуального
+      сопровождения материала и не изображают
+      реальные участки конкретных платформ.
+      Схемы, интерактивный каталог и композиция
+      страницы подготовлены для учебной работы.
+    </p>
+  </div>
+
 </section>
+
+</article>
 </div>
 
 </main>
 
+<!-- ПОДВАЛ -->
+
 <footer class="footer">
   <div class="wrap">
-    ◈ INTERNET LAB / 02 ·
-    Мультимедийный лонгрид
-    по материалам лабораторной работы №1 ·
-    МГТУ «СТАНКИН», 2026.
-    <p>
-      Визуальные схемы и демонстрационная карточка
-      подготовлены для учебных целей.
-    </p>
-    <a href="#top">Наверх ↑</a>
+    <div>
+      <strong style="color:white">
+        ◈ INTERNET LAB / 02
+      </strong>
+      <p>
+        Мультимедийный лонгрид по дисциплине
+        «Интернет-технологии».
+        МГТУ «СТАНКИН», 2026.
+      </p>
+    </div>
+
+    <a href="#top">Вернуться наверх ↑</a>
   </div>
 </footer>
 
@@ -1385,342 +2486,211 @@ select:focus-visible {
 (function () {
   "use strict";
 
-  // Индикатор прокрутки.
-  const bar = document.querySelector("#progress");
+  /* Индикатор прогресса чтения */
 
-  function progress() {
+  const progress = document.getElementById("progress");
+
+  function updateProgress() {
     const max =
       document.documentElement.scrollHeight -
       window.innerHeight;
 
-    bar.style.width =
-      (max > 0 ? window.scrollY / max * 100 : 0) + "%";
+    progress.style.width =
+      (max > 0
+        ? Math.min(100, window.scrollY / max * 100)
+        : 0) + "%";
   }
 
-  window.addEventListener("scroll", progress, {
+  window.addEventListener("scroll", updateProgress, {
     passive: true
   });
-  progress();
 
-  // Анимация появления блоков.
-  const observer = ("IntersectionObserver" in window)
-    ? new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            e.target.classList.add("visible");
-            observer.unobserve(e.target);
-          }
-        });
-      }, { threshold: .08 })
-    : null;
+  updateProgress();
 
-  document.querySelectorAll(".reveal").forEach(el => {
-    if (observer) {
-      observer.observe(el);
-    } else {
-      el.classList.add("visible");
-    }
+  /* Активная глава в содержании */
+
+  const chapters = Array.from(
+    document.querySelectorAll(".chapter")
+  );
+
+  const tocLinks = Array.from(
+    document.querySelectorAll(".toc a")
+  );
+
+  function updateNavigation() {
+    let current = chapters[0]
+      ? chapters[0].id
+      : "";
+
+    chapters.forEach(function (section) {
+      if (
+        section.getBoundingClientRect().top <
+        window.innerHeight * 0.35
+      ) {
+        current = section.id;
+      }
+    });
+
+    tocLinks.forEach(function (link) {
+      const active =
+        link.getAttribute("href") === "#" + current;
+
+      link.classList.toggle("active", active);
+
+      if (active) {
+        link.setAttribute("aria-current", "location");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+  }
+
+  window.addEventListener("scroll", updateNavigation, {
+    passive: true
   });
 
-  // Интерактивный каталог.
-  const catalog = {
+  updateNavigation();
+
+  /* Анимации появления */
+
+  const revealElements =
+    document.querySelectorAll(".reveal");
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.08 }
+    );
+
+    revealElements.forEach(function (el) {
+      observer.observe(el);
+    });
+  } else {
+    revealElements.forEach(function (el) {
+      el.classList.add("visible");
+    });
+  }
+
+  /* Демонстрационная база объектов */
+
+  const objects = {
     gallery: {
-      title: "Виртуальная галерея",
-      place: "LAND-42",
-      kind: "ArtGallery",
-      access: "public",
-      features: ["3D-экспозиция", "выставки"]
+      title: "Галерея",
+      id: "OBJ-042",
+      name: "Галерея «Орбита»",
+      category: "выставка",
+      access: "публичный",
+      accessCode: "public",
+      type: "ArtGallery",
+      description:
+        "Публичная выставочная сцена, связанная " +
+        "с виртуальным участком, условиями " +
+        "доступа и выставочными событиями."
     },
-    office: {
-      title: "Виртуальный офис",
-      place: "LAND-19",
-      kind: "Office",
-      access: "members",
-      features: ["встречи", "совместная работа"]
-    },
+
     event: {
-      title: "Площадка мероприятий",
-      place: "LAND-88",
-      kind: "EventVenue",
-      access: "public",
-      features: ["концерты", "презентации"]
+      title: "Событие",
+      id: "OBJ-108",
+      name: "Амфитеатр «Сфера»",
+      category: "концерт",
+      access: "по билету",
+      accessCode: "ticketed",
+      type: "EventVenue",
+      description:
+        "Виртуальная площадка мероприятий. " +
+        "Каталог может описывать её назначение, " +
+        "вместимость, расписание и правила доступа."
+    },
+
+    education: {
+      title: "Кампус",
+      id: "OBJ-216",
+      name: "Кампус «Атлас»",
+      category: "обучение",
+      access: "для группы",
+      accessCode: "restricted",
+      type: "EducationalOrganization",
+      description:
+        "Учебное виртуальное пространство " +
+        "с цифровыми аудиториями, ресурсами " +
+        "и ограниченным доступом."
     }
   };
 
-  function show(key) {
-    const v = catalog[key];
-    if (!v) return;
+  /* Изменение интерактивного каталога */
 
-    document.querySelectorAll("[data-item]")
-      .forEach(button => {
+  function updateDemo(key) {
+    const item = objects[key];
+
+    if (!item) return;
+
+    document.getElementById("graph-title").textContent =
+      item.title;
+
+    document.getElementById("graph-id").textContent =
+      item.id;
+
+    document.getElementById("graph-access").textContent =
+      item.access;
+
+    document.getElementById("graph-category").textContent =
+      item.category;
+
+    document.getElementById("demo-name").textContent =
+      item.name;
+
+    document.getElementById("demo-description").textContent =
+      item.description;
+
+    /* Пример структурированных метаданных */
+
+    const jsonld = {
+      "@context": {
+        "schema": "https://schema.org/"
+      },
+      "@id": "https://example.org/objects/" + item.id,
+      "@type": "schema:Place",
+      "schema:name": item.name,
+      "schema:identifier": item.id,
+      "schema:category": item.type,
+      "schema:description": item.description,
+      "schema:additionalProperty": {
+        "@type": "schema:PropertyValue",
+        "schema:name": "Access policy",
+        "schema:value": item.accessCode
+      }
+    };
+
+    document.getElementById("demo-json").textContent =
+      JSON.stringify(jsonld, null, 2);
+
+    document.querySelectorAll("[data-type]")
+      .forEach(function (button) {
+        const active = button.dataset.type === key;
+
+        button.classList.toggle("active", active);
         button.setAttribute(
           "aria-pressed",
-          String(button.dataset.item === key)
+          String(active)
         );
       });
-
-    document.querySelector("#demo-caption").textContent =
-      v.title + " · " + v.place +
-      " · Доступ: " + v.access;
-
-    const record = {
-      "@context": {
-        "name": "https://schema.org/name",
-        "type": "@type",
-        "Place": "https://schema.org/Place",
-        "identifier": "https://schema.org/identifier",
-        "access": "https://schema.org/publicAccess",
-        "category": "https://schema.org/category"
-      },
-      "@type": "Place",
-      "name": v.title,
-      "identifier": v.place,
-      "category": v.kind,
-      "access": v.access,
-      "features": v.features
-    };
-
-    document.querySelector("#json-output").textContent =
-      JSON.stringify(record, null, 2);
   }
 
-  document.querySelectorAll("[data-item]")
-    .forEach(button => {
-      button.addEventListener("click", () => {
-        show(button.dataset.item);
+  document.querySelectorAll("[data-type]")
+    .forEach(function (button) {
+      button.addEventListener("click", function () {
+        updateDemo(button.dataset.type);
       });
     });
 
-  show("gallery");
-
-  // Новая русская озвучка.
-  const textParts = [
-    "Представьте виртуальный город. " +
-    "Здесь можно арендовать цифровую галерею, " +
-    "провести выставку или создать пространство " +
-    "для встреч.",
-
-    "Но как поисковая система поймёт, " +
-    "чем одна виртуальная площадка отличается " +
-    "от другой?",
-
-    "На помощь приходит семантическая паутина. " +
-    "Это подход, при котором сведения об объектах " +
-    "описывают в форме, понятной компьютерным " +
-    "программам.",
-
-    "Например, можно указать назначение здания, " +
-    "его местоположение в виртуальном мире, " +
-    "доступность и связанные сервисы.",
-
-    "Из таких сведений формируются графы знаний. " +
-    "Они помогают находить и сопоставлять объекты, " +
-    "даже когда информация хранится в разных " +
-    "системах.",
-
-    "Однако семантическая разметка сама по себе " +
-    "не гарантирует право собственности и не " +
-    "устраняет экономические риски виртуальных " +
-    "платформ.",
-
-    "В этом лонгриде мы разберём семантические " +
-    "технологии, реальные примеры виртуальной " +
-    "недвижимости и ограничения единого " +
-    "цифрового пространства."
-  ];
-
-  document.querySelector("#voice-transcript").textContent =
-    textParts.join(" ");
-
-  const select = document.querySelector("#voice-select");
-  const speed = document.querySelector("#voice-speed");
-  const play = document.querySelector("#voice-play");
-  const pause = document.querySelector("#voice-pause");
-  const stop = document.querySelector("#voice-stop");
-  const status = document.querySelector("#voice-status");
-
-  if (
-    !("speechSynthesis" in window) ||
-    !("SpeechSynthesisUtterance" in window)
-  ) {
-    status.textContent =
-      "Браузер не поддерживает синтез речи.";
-    play.disabled = true;
-    return;
-  }
-
-  const synth = window.speechSynthesis;
-
-  let voices = [];
-  let index = 0;
-  let active = false;
-  let paused = false;
-  let session = 0;
-
-  function load() {
-    const old = voices[Number(select.value)];
-
-    voices = synth.getVoices().filter(v =>
-      /^ru([-_]|$)/i.test(v.lang)
-    );
-
-    function score(v) {
-      return (
-        (/natural|neural/i.test(v.name) ? 8 : 0) +
-        (/microsoft|google|apple/i.test(v.name) ? 4 : 0)
-      );
-    }
-
-    voices.sort((a, b) => score(b) - score(a));
-    select.replaceChildren();
-
-    if (!voices.length) {
-      select.add(new Option("Русский голос не найден", "0"));
-
-      if (!active) {
-        status.textContent =
-          "Русский голос не найден. " +
-          "Установите его в настройках системы.";
-      }
-      return;
-    }
-
-    voices.forEach((v, i) => {
-      select.add(new Option(v.name, String(i)));
-    });
-
-    if (old) {
-      const i = voices.findIndex(v => v.name === old.name);
-      if (i >= 0) select.value = String(i);
-    }
-
-    if (!active) {
-      status.textContent =
-        "Готово. Выберите голос и нажмите «Слушать».";
-    }
-  }
-
-  function buttons() {
-    play.textContent = active
-      ? "↻ С начала"
-      : "▶ Слушать";
-
-    pause.disabled = !active;
-    stop.disabled = !active;
-
-    pause.textContent = paused
-      ? "▶ Продолжить"
-      : "⏸ Пауза";
-  }
-
-  function reset(message) {
-    session++;
-    active = false;
-    paused = false;
-    index = 0;
-
-    synth.cancel();
-    buttons();
-
-    if (message) status.textContent = message;
-  }
-
-  function next(token) {
-    if (!active || token !== session) return;
-
-    if (index >= textParts.length) {
-      reset("Вступление прослушано полностью.");
-      return;
-    }
-
-    const utter = new SpeechSynthesisUtterance(
-      textParts[index++]
-    );
-
-    utter.lang = "ru-RU";
-    utter.voice =
-      voices[Number(select.value)] || voices[0];
-
-    utter.rate = Number(speed.value);
-    utter.volume = 1;
-    utter.pitch = 1;
-
-    utter.onstart = () => {
-      if (token === session) {
-        status.textContent =
-          "Фрагмент " + index +
-          " из " + textParts.length;
-      }
-    };
-
-    utter.onend = () => {
-      if (token === session && active) {
-        next(token);
-      }
-    };
-
-    utter.onerror = e => {
-      if (
-        token === session &&
-        active &&
-        !["canceled", "interrupted"].includes(e.error)
-      ) {
-        reset(
-          "Ошибка озвучки. Выберите другой голос."
-        );
-      }
-    };
-
-    synth.speak(utter);
-  }
-
-  play.addEventListener("click", () => {
-    load();
-
-    if (!voices.length) {
-      status.textContent =
-        "Нет русского голоса.";
-      return;
-    }
-
-    reset();
-    active = true;
-    buttons();
-    next(session);
-  });
-
-  pause.addEventListener("click", () => {
-    if (!active) return;
-
-    if (paused) {
-      synth.resume();
-      paused = false;
-    } else {
-      synth.pause();
-      paused = true;
-    }
-
-    buttons();
-  });
-
-  stop.addEventListener("click", () => {
-    reset("Остановлено.");
-  });
-
-  select.addEventListener("change", () => {
-    if (active) {
-      reset(
-        "Голос изменён. Нажмите «Слушать»."
-      );
-    }
-  });
-
-  if (synth.addEventListener) {
-    synth.addEventListener("voiceschanged", load);
-  }
-
-  load();
-  setTimeout(load, 500);
+  updateDemo("gallery");
 
 })();
 </script>
